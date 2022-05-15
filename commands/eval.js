@@ -11,7 +11,7 @@ const replaceSecrets = (str, hid = "Hidden") => {
 };
 const resEmbed = new Discord.MessageEmbed();
 
-module.exports.run = (bot, message, args) => {
+module.exports.run = async (bot, message, args) => {
                 if(!bot.config.devs.includes(message.author.id)) return;
 
                 let codein = args.join(" ");
