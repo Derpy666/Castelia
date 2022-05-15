@@ -81,8 +81,8 @@ const checkIfStreaming = async (oldMember, newMember) => {
   } catch (err) {
     /* */
   }
-  const streamingRole = newMember.guild.roles.find(r => r.name === 'Streaming');
-  const memberHasStreamingRole = newMember.roles.has(streamingRole.id);
+  const streamingRole = newMember.guild.roles.cache.find(r => r.name === 'Streaming');
+  const memberHasStreamingRole = newMember.roles.cache.has(streamingRole.id);
   let oldMemberWasStreaming = false;
   let newMemberIsStreaming = false;
   if (oldMemberGame) {
