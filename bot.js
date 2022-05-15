@@ -8,7 +8,7 @@ const { discordBot: discordBotConfig } = require('./settings/config');
 const fs = require('fs');
 
 const bot = new Discord.Client({
-intents: Object.keys(Intents.FLAGS),
+intents: Object.keys(Discord.Intents.FLAGS),
 allowedMentions: { parse: ['users', 'roles'], repliedUser: true },
 fetchAllMembers:true
 });
