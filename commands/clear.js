@@ -6,7 +6,7 @@ module.exports.run = async (bot, message, args) => {
     return;
   }
   await message.delete();
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES');
+  if (!message.member.permissions.has('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES');
   if (args[0] === 'help' || args.length < 1) {
     message.author.send('Usage: !clear <amount 1-100>');
     return;
