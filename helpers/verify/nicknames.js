@@ -52,7 +52,7 @@ module.exports = async (bot, member) => {
   if (member) {
     await checkDiscordNickname(member);
   } else {
-    const channel = bot.guilds.find(item => item.name === discordBot.channelName);
+    const channel = bot.guilds.cache.find(item => item.name === discordBot.channelName);
     channel.members.forEach(async (discordMember) => {
       await checkDiscordNickname(discordMember, true);
     });
