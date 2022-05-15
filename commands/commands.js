@@ -24,7 +24,7 @@ module.exports.run = async (bot, message) => {
 
   message.author.send({ embeds: [servedEmbed] });
 
-  if (message.channel.type !== 'dm' && message.member.hasPermission('MANAGE_MESSAGES')) {
+  if (message.channel.type !== 'dm' && message.member.permissions.has('MANAGE_MESSAGES')) {
     const staffServerEmbed = new Discord.MessageEmbed()
       .setColor('#15f153')
       .setThumbnail('https://i.imgur.com/UXkyX2E.png')
