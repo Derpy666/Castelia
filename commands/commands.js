@@ -4,7 +4,7 @@ module.exports.run = async (bot, message) => {
   if (!message.channel.type === 'dm') {
     message.delete();
   }
-  const servedEmbed = new Discord.RichEmbed()
+  const servedEmbed = new Discord.MessageEmbed()
     .setColor('#15f153')
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
     .setDescription("OSM's Discord Commands")
@@ -22,10 +22,10 @@ module.exports.run = async (bot, message) => {
     .addField('!joingiveaway', 'Join a running giveaway to win a coupon code!')
     .addField('!commands', 'Display this list of commands.');
 
-  message.author.send(servedEmbed);
+  message.author.send({ embeds: [servedEmbed] });
 
   if (message.channel.type !== 'dm' && message.member.hasPermission('MANAGE_MESSAGES')) {
-    const staffServerEmbed = new Discord.RichEmbed()
+    const staffServerEmbed = new Discord.MessageEmbed()
       .setColor('#15f153')
       .setThumbnail('https://i.imgur.com/UXkyX2E.png')
       .setDescription("OSM's Discord Staff Commands")
@@ -47,7 +47,7 @@ module.exports.run = async (bot, message) => {
       .addField('!givevote <ign>', 'Gives a player a manual vote reward.')
       .addField('!featuredstreamer', 'Displays information on how to become a featured streamer.');
 
-    message.author.send(staffServerEmbed);
+    message.author.send({ embeds: [staffServerEmbed] });
   }
 };
 
