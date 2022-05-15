@@ -32,7 +32,7 @@ const newNitroBooster = async (bot, member) => {
         .setTimestamp(new Date().getTime())]});
 
       const osmDiscord = bot.guilds.cache.find(guild => guild.name === discordBotConfig.channelName);
-      const generalChannel = osmDiscord.channels.find(channel => channel.name === 'general');
+      const generalChannel = osmDiscord.channels.cache.find(channel => channel.name === 'general');
 
       generalChannel.send({ embeds: [new Discord.MessageEmbed()
         .setColor(green)
@@ -46,7 +46,7 @@ const newNitroBooster = async (bot, member) => {
 };
 
 const checkForNitroBoost = async (bot, member, isAnUpdate) => {
-  const nitroBoostRole = member.roles.find(role => role.name === 'Nitro Booster');
+  const nitroBoostRole = member.roles.cache.find(role => role.name === 'Nitro Booster');
   if (nitroBoostRole) {
     if (isAnUpdate) {
       try {
@@ -131,7 +131,7 @@ module.exports = async (bot, oldMember, newMember) => {
       await checkForNitroBoost(bot, newMember);
     } else {
       const channel = bot.guilds.cache.find(item => item.name === discordBotConfig.channelName);
-      channel.members.forEach(async (discordMember) => {
+      channel.members.cache.forEach(async (discordMember) => {
         await checkForNitroBoost(bot, discordMember, true);
       });
     }
