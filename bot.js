@@ -48,7 +48,7 @@ bot.on('ready', async () => {
 });
 
 bot.on('presenceUpdate', async (oldPresence, newPresence) => {
-  verify.streaming(oldPresence.member, newPresence.member);
+  verify.streaming(oldPresence?.member, newPresence?.member);
 });
 
 bot.on('guildMemberAdd', (member) => {
