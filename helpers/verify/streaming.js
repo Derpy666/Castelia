@@ -13,7 +13,7 @@ const memberHasBeganStreaming = async (member, streamingRole) => {
       );
       if (!isAlreadyStreaming) {
         const streamsChannelMessage = `<@!${member.id}> is streaming OSM! ${
-          member.presence.game.url
+          member.presence.activities[0].url
         }`;
         const sentMessage = await streamsChannel.send(streamsChannelMessage);
         const newStreamer = {
@@ -38,7 +38,7 @@ const memberHasStoppedStreaming = async (member, streamingRole) => {
         [member.id],
       );
       if (messageData && messageData.messageId) {
-        const message = await streamsChannel.fetchMessage(messageData.messageId);
+        const message = await streamsChannel.messages.fetch(messageData.messageId);
         await conn.query('DELETE FROM streaming WHERE member_id = ?', [
           member.id,
         ]);
@@ -73,10 +73,10 @@ const checkIfStreaming = async (oldMember, newMember) => {
   let newMemberGame;
   try {
     if (!oldMember) {
-      newMemberGame = newMember.user.presence.game;
+      newMemberGame = newMember.user.presence.activities[0];
     } else {
-      oldMemberGame = oldMember.presence.game;
-      newMemberGame = newMember.presence.game;
+      oldMemberGame = oldMember.presence.activities[0];
+      newMemberGame = newMember.presence.activities[0];
     }
   } catch (err) {
     /* */
@@ -95,9 +95,9 @@ const checkIfStreaming = async (oldMember, newMember) => {
   const beganStreaming = !oldMemberWasStreaming && newMemberIsStreaming;
   const wasStreamingAndStopped = oldMemberWasStreaming && !newMemberIsStreaming;
   if (stillStreaming || beganStreaming) {
-    const streamingTitle = newMember.presence.game.name;
-    const streamingGame = newMember.presence.game.details;
-    const streamingUrl = newMember.presence.game.url;
+    const streamingTitle = newMember.presence.activities[0].name;
+    const streamingGame = newMember.presence.activities[0].details;
+    const streamingUrl = newMember.presence.activities[0].url;
     const streamingUsername = streamingUrl.substring('https://www.twitch.tv/'.length);
     if (
       streamingTitle.toLowerCase().startsWith(settings.twitch.gameTag) &&
