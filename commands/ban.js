@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
     return;
   }
   message.delete();
-  if (!message.member.hasPermission('BAN_MEMBERS')) return errors.noPerms(message, 'BAN_MEMBERS');
+  if (!message.member.permissions.has('BAN_MEMBERS')) return errors.noPerms(message, 'BAN_MEMBERS');
   if (args[0] === 'help' || args.length < 2) {
     message.author.send('Usage: !ban <user> <reason>');
     return;
@@ -24,11 +24,11 @@ module.exports.run = async (bot, message, args) => {
   if (!reason) {
     return errors.noReason(message, username, 'banning');
   }
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+  if (!message.member.permissions.has('MANAGE_MESSAGES')) {
     return errors.equalPerms(message, 'MANAGE_MESSAGES');
   }
 
-  const banEmbed = new Discord.RichEmbed()
+  const banEmbed = new Discord.MessageEmbed()
     .setColor(red)
     .setDescription('Ban')
     .addField('Banned By', message.author)
@@ -42,15 +42,15 @@ module.exports.run = async (bot, message, args) => {
     return errors.general(message, 'Could not find the #incidents channel. Please create it so I can log all incidents.');
   }
 
-  user.send(new Discord.RichEmbed()
+  user.send({ embeds: [new Discord.MessageEmbed()
     .setColor(red)
     .setDescription('You\'ve been banned from the OSM discord.')
     .addField('Reason', reason)
     .addField('Occured in', message.channel)
-    .setTimestamp(message.createdAt));
+    .setTimestamp(message.createdAt)]});
 
   message.guild.member(user).ban({ days: 7, reason });
-  incidentsChannel.send(banEmbed);
+  incidentsChannel.send({ embeds: [banEmbed] });
 };
 
 module.exports.help = {
