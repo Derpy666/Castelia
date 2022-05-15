@@ -123,7 +123,7 @@ module.exports = async (oldMember, newMember, bot) => {
     await checkIfStreaming(oldMember, newMember);
   } else {
     const channel = bot.guilds.cache.find(item => item.name === discordBot.channelName);
-    channel.members.forEach(async (discordMember) => {
+    channel.members.cache.forEach(async (discordMember) => {
       await checkIfStreaming(null, discordMember);
     });
   }
