@@ -27,12 +27,12 @@ module.exports.run = async (bot, message) => {
           ign,
         });
         const referralLink = `https://play.oldschoolmaple.com/?referral=${accountReferral.data.result}`;
-        const servedEmbed = new Discord.RichEmbed()
+        const servedEmbed = new Discord.MessageEmbed()
           .setColor('#15f153')
           .setThumbnail(`${generatedCharImage.data.result}?name=${ign}`)
           .setDescription(description)
           .addField('Referral Link ', referralLink);
-        message.channel.send(servedEmbed);
+        message.channel.send({ embeds: [servedEmbed] });
       } catch (err) {
         message.author.send(unableToFindMessage);
       }
