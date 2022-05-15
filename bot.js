@@ -33,6 +33,11 @@ fs.readdir('./commands/', (err, files) => {
   });
 });
 
+process.on("unhandledRejection", error => {
+  console.error("Uncaught Promise Rejection", error);
+  console.log("Restarting...");
+});
+
 bot.on('ready', async () => {
   console.log(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`);
   fetch.mutes(discordBotConfig.channelName, bot);
