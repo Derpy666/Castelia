@@ -4,7 +4,7 @@ module.exports.run = async (bot, message) => {
   if (!message.channel.type === 'dm') {
     message.delete();
   }
-  const serverEmbed = new Discord.RichEmbed()
+  const serverEmbed = new Discord.MessageEmbed()
     .setColor('#15f153')
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
     .setDescription('How do I become a featured streamer?')
@@ -14,12 +14,12 @@ module.exports.run = async (bot, message) => {
     .addField('Earn Maple Cash', 'You can earn Maple Cash for every hour that you stream OSM! Check out our streaming incentives here: <https://forum.oldschoolmaple.com/threads/introducing-streaming-incentives.309/>');
   try {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
-      message.author.send(serverEmbed);
+      message.author.send({ embeds: [serverEmbed] });
     } else {
-      message.channel.send(serverEmbed);
+      message.channel.send({ embeds: [serverEmbed] });
     }
   } catch (ex) {
-    message.author.send(serverEmbed);
+    message.author.send({ embeds: [serverEmbed] });
   }
 };
 
