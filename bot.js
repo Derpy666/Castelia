@@ -7,7 +7,11 @@ const {
 const { discordBot: discordBotConfig } = require('./settings/config');
 const fs = require('fs');
 
-const bot = new Discord.Client();
+const bot = new Discord.Client({
+intents: Object.keys(Intents.FLAGS),
+allowedMentions: { parse: ['users', 'roles'], repliedUser: true },
+fetchAllMembers:true
+});
 bot.commands = new Discord.Collection();
 
 const cooldown = new Set();
@@ -43,8 +47,8 @@ bot.on('ready', async () => {
   });
 });
 
-bot.on('presenceUpdate', async (oldMember, newMember) => {
-  verify.streaming(oldMember, newMember);
+bot.on('presenceUpdate', async (oldPresence, newPresence) => {
+  verify.streaming(oldPresence.member, newPresence.member);
 });
 
 bot.on('guildMemberAdd', (member) => {
@@ -58,11 +62,11 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
 });
 
 
-bot.on('message', async (message) => {
+bot.on('messageCreate', async (message) => {
   // Remove URLs
   if (message.channel.type !== 'dm' && !message.author.bot && !message.member.hasPermission('MANAGE_MESSAGES') && message.channel.name === 'general' && isA.url(message.content)) {
     message.delete();
-    message.author.send('Posting links in OSM\'s **#general** channel is not allowed.');
+    message.author.send('Posting links in **#general** channel is not allowed.');
     return;
   }
 
