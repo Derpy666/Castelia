@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
             .addField('Coupon Code', code)
             .setTimestamp(message.createdAt);
 
-          message.author.send({ embeds: [couponCodeEmbed] );
+          message.author.send({ embeds: [couponCodeEmbed] });
         }
       });
     } catch (err) {
