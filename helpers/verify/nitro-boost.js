@@ -31,7 +31,7 @@ const newNitroBooster = async (bot, member) => {
         .addField('Free Maple Cash', 'Please type **!setnitroboostacc <ign>** to **earn 3,000 Maple Cash every week that you keep Nitro Boosting OSM**! That\'s **12,000 Maple Cash a month** (which is more than you would get from donating $10)!\n\nYou can type **!nextnitroboostreward** to see when you will receive your next Nitro Boost reward!\n\nYou can type **!nextnitroboostreward** to see when you will receive your next Nitro Boost reward!\n\nYou can change which account receives the FREE Maple Cash from Nitro Boosting by running **!setnitroboostacc <ign>** again.')
         .setTimestamp(new Date().getTime())]});
 
-      const osmDiscord = bot.guilds.find(guild => guild.name === discordBotConfig.channelName);
+      const osmDiscord = bot.guilds.cache.find(guild => guild.name === discordBotConfig.channelName);
       const generalChannel = osmDiscord.channels.find(channel => channel.name === 'general');
 
       generalChannel.send({ embeds: [new Discord.MessageEmbed()
@@ -130,7 +130,7 @@ module.exports = async (bot, oldMember, newMember) => {
     if (newMember) {
       await checkForNitroBoost(bot, newMember);
     } else {
-      const channel = bot.guilds.find(item => item.name === discordBotConfig.channelName);
+      const channel = bot.guilds.cache.find(item => item.name === discordBotConfig.channelName);
       channel.members.forEach(async (discordMember) => {
         await checkForNitroBoost(bot, discordMember, true);
       });
