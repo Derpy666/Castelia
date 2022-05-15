@@ -22,13 +22,13 @@ module.exports.run = async (bot, message, args) => {
       return;
     }
     message.delete();
-    if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+    if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
     if (args[0] === 'help' || args.length !== 0) {
       message.author.send('Usage: !endgiveaway');
       return;
     }
 
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
       return errors.equalPerms(message, 'MANAGE_MESSAGES');
     }
 
@@ -52,7 +52,7 @@ module.exports.run = async (bot, message, args) => {
 
           // eslint-disable-next-line no-await-in-loop
           await conn.query('INSERT INTO osm.coupon_codes SET ?', [couponCodeTransaction]);
-          const couponCodeEmbed = new Discord.RichEmbed()
+          const couponCodeEmbed = new Discord.MessageEmbed()
             .setColor(green)
             .setThumbnail('https://i.imgur.com/UXkyX2E.png')
             .setDescription('You won the giveaway! Congratulations!!')
@@ -61,16 +61,16 @@ module.exports.run = async (bot, message, args) => {
             .setTimestamp(message.createdAt);
 
           // eslint-disable-next-line no-await-in-loop
-          await player.send(couponCodeEmbed);
+          await player.send({ embeds: [couponCodeEmbed] });
 
-          const couponCodeGeneratedEmbed = new Discord.RichEmbed()
+          const couponCodeGeneratedEmbed = new Discord.MessageEmbed()
             .setColor(green)
             .setDescription(`${player.tag} won the giveaway.`)
             .addField('Their Coupon Code', code)
             .addField('Amount', `${helpers.generate.commadNumber(globals.variables.giveaway.amount)} Maple Cash`)
             .setTimestamp(message.createdAt);
           // eslint-disable-next-line no-await-in-loop
-          await globals.variables.giveaway.creator.send(couponCodeGeneratedEmbed);
+          await globals.variables.giveaway.creator.send({ embeds: [couponCodeGeneratedEmbed] });
           // usernamesOfWinners.push(player.tag);
           usernamesOfWinners.push(player);
         }
@@ -79,7 +79,7 @@ module.exports.run = async (bot, message, args) => {
       console.log(err);
     }
 
-    const giveawayEventEmbed = new Discord.RichEmbed()
+    const giveawayEventEmbed = new Discord.MessageEmbed()
       .setColor(green)
       .setThumbnail('https://i.imgur.com/UXkyX2E.png')
       .setDescription(`The giveaway has ended! Congratulations to **${usernamesOfWinners.join(', ')}**!`)
@@ -87,7 +87,7 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(message.createdAt);
 
     const generalChannel = message.guild.channels.find(item => item.name === 'general');
-    generalChannel.send(giveawayEventEmbed);
+    generalChannel.send({ embeds: [giveawayEventEmbed] });
     endGiveaway();
   } catch (err) {
     console.log(err);
