@@ -11,13 +11,13 @@ module.exports.run = async (bot, message, args) => {
     return;
   }
   message.delete();
-  if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+  if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
   if (args[0] === 'help' || args.length !== 1) {
     message.author.send('Usage: !unbanstreamer <username>');
     return;
   }
 
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+  if (!message.member.permissions.has('MANAGE_MESSAGES')) {
     return errors.equalPerms(message, 'MANAGE_MESSAGES');
   }
 
@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args) => {
   }
 
   if (unbannedStreamer) {
-    const bannedStreamerEmbed = new Discord.RichEmbed()
+    const bannedStreamerEmbed = new Discord.MessageEmbed()
       .setColor(orange)
       .setDescription('Unbanned Streamer')
       .addField('Unbanned By', message.author)
@@ -54,7 +54,7 @@ module.exports.run = async (bot, message, args) => {
       return errors.general(message, 'Could not find the #streamers channel. Please create it so I can log all incidents.');
     }
 
-    streamersChannel.send(bannedStreamerEmbed);
+    streamersChannel.send({ embeds: [bannedStreamerEmbed] });
   }
 };
 
