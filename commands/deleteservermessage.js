@@ -12,13 +12,13 @@ module.exports.run = async (bot, message, args) => {
       return;
     }
     message.delete();
-    if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+    if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
     if (args[0] === 'help' || args.length > 0) {
       message.author.send('Usage: !deleteservermessage');
       return;
     }
 
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
       return errors.equalPerms(message, 'MANAGE_MESSAGES');
     }
 
@@ -30,10 +30,10 @@ module.exports.run = async (bot, message, args) => {
       console.log(err);
     }
 
-    message.author.send(new Discord.RichEmbed()
+    message.author.send({ embeds: [new Discord.RichEmbed()
       .setColor(green)
       .setDescription('Deleted the server message.')
-      .setTimestamp(message.createdAt));
+      .setTimestamp(message.createdAt)]});
   } catch (err) {
     console.log(err);
     message.author.send(`Something went wrong: ${err.message}`);
