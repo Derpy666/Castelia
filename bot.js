@@ -64,7 +64,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
 
 bot.on('messageCreate', async (message) => {
   // Remove URLs
-  if (message.channel.type !== 'dm' && !message.author.bot && !message.member.hasPermission('MANAGE_MESSAGES') && message.channel.name === 'general' && isA.url(message.content)) {
+  if (message.channel.type !== 'dm' && !message.author.bot && !message.member.permissions.has('MANAGE_MESSAGES') && message.channel.name === 'general' && isA.url(message.content)) {
     message.delete();
     message.author.send('Posting links in **#general** channel is not allowed.');
     return;
@@ -87,7 +87,7 @@ bot.on('messageCreate', async (message) => {
     message.delete();
     return message.author.send('You have to wait 5 seconds between commands.');
   }
-  if (!isDirectMessage && !message.member.hasPermission('ADMINISTRATOR')) {
+  if (!isDirectMessage && !message.member.permissions.has('ADMINISTRATOR')) {
     cooldown.add(message.author.id);
   }
 
@@ -106,7 +106,7 @@ bot.on('messageCreate', async (message) => {
 
 bot.on('messageUpdate', (oldMessage, newMessage) => {
   // Remove URLs
-  if (newMessage.channel.type !== 'dm' && !newMessage.author.bot && !newMessage.member.hasPermission('MANAGE_MESSAGES') && newMessage.channel.name === 'general' && isA.url(newMessage.content)) {
+  if (newMessage.channel.type !== 'dm' && !newMessage.author.bot && !newMessage.member.permisions.has('MANAGE_MESSAGES') && newMessage.channel.name === 'general' && isA.url(newMessage.content)) {
     newMessage.delete();
     newMessage.author.send('Posting links in OSM\'s **#general** channel is not allowed.');
   }
