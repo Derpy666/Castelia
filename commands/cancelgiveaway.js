@@ -20,13 +20,13 @@ module.exports.run = async (bot, message, args) => {
       return;
     }
     message.delete();
-    if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+    if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
     if (args[0] === 'help' || args.length !== 0) {
       message.author.send('Usage: !cancelgiveaway');
       return;
     }
 
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
       return errors.equalPerms(message, 'MANAGE_MESSAGES');
     }
 
@@ -35,14 +35,14 @@ module.exports.run = async (bot, message, args) => {
       return;
     }
 
-    const giveawayEventEmbed = new Discord.RichEmbed()
+    const giveawayEventEmbed = new Discord.MessageEmbed()
       .setColor(green)
       .setThumbnail('https://i.imgur.com/UXkyX2E.png')
       .setDescription('The giveaway has been cancelled!')
       .setTimestamp(message.createdAt);
 
     const generalChannel = message.guild.channels.find(item => item.name === 'general');
-    generalChannel.send(giveawayEventEmbed);
+    generalChannel.send({ embeds: [giveawayEventEmbed]);
     endGiveaway();
   } catch (err) {
     console.log(err);
