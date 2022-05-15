@@ -13,7 +13,7 @@ module.exports.run = async (bot, message, args) => {
   }
   const [characterName] = args;
 
-  const channel = bot.guilds.find(x => x.name === discordBot.channelName);
+  const channel = bot.guilds.cache.find(x => x.name === discordBot.channelName);
   const member = channel.members.find(x => x.id === message.author.id);
   member.setNickname(`!${characterName}`);
 };
