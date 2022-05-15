@@ -24,21 +24,21 @@ const newNitroBooster = async (bot, member) => {
       `, [member.id, member.user.discriminator]);
 
       // Send thank you for boosting
-      member.user.send(new Discord.RichEmbed()
+      member.user.send({ embeds: [new Discord.MessageEmbed()
         .setColor(green)
         .setThumbnail('https://i.imgur.com/UXkyX2E.png')
         .setDescription('Thank you for Nitro Boosting OSM\'s Discord!')
         .addField('Free Maple Cash', 'Please type **!setnitroboostacc <ign>** to **earn 3,000 Maple Cash every week that you keep Nitro Boosting OSM**! That\'s **12,000 Maple Cash a month** (which is more than you would get from donating $10)!\n\nYou can type **!nextnitroboostreward** to see when you will receive your next Nitro Boost reward!\n\nYou can type **!nextnitroboostreward** to see when you will receive your next Nitro Boost reward!\n\nYou can change which account receives the FREE Maple Cash from Nitro Boosting by running **!setnitroboostacc <ign>** again.')
-        .setTimestamp(new Date().getTime()));
+        .setTimestamp(new Date().getTime())]});
 
       const osmDiscord = bot.guilds.find(guild => guild.name === discordBotConfig.channelName);
       const generalChannel = osmDiscord.channels.find(channel => channel.name === 'general');
 
-      generalChannel.send(new Discord.RichEmbed()
+      generalChannel.send({ embeds: [new Discord.MessageEmbed()
         .setColor(green)
         .setThumbnail('https://i.imgur.com/UXkyX2E.png')
         .setDescription(`Thank you to ${member.user.tag} (${member}) for Nitro Boosting OSM's Discord!\n\nIf you Nitro Boost OSM's Discord, you can **earn 3,000 Maple Cash every week** that you keep boosting! That's **12,000 Maple Cash a month** (More than you would get from donating $10)!`)
-        .setTimestamp(new Date().getTime()));
+        .setTimestamp(new Date().getTime())]});
     });
   } catch (err) {
     console.log(err);
