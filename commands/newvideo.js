@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args) => {
     return;
   }
   message.delete();
-  if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+  if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
   if (args[0] === 'help' || args.length !== 1) {
     message.author.send('Usage: !newvideo <video link>');
     return;
@@ -163,8 +163,8 @@ module.exports.run = async (bot, message, args) => {
                 settings.youtube.discordChannel.id,
                 settings.youtube.discordChannel.secret,
               );
-              await discordWebhook.edit(characterOfAccount.name, characterImage);
-              const transactionEmbed = new Discord.RichEmbed()
+              await discordWebhook.edit({ name: characterOfAccount.name, avatar: characterImage });
+              const transactionEmbed = new Discord.MessageEmbed()
                 .setDescription('**Check out my new community video related to OSM that I posted!**')
                 .setColor('#00ff26')
                 .setThumbnail(`${characterImage}?name=${characterOfAccount.name}`)
@@ -174,7 +174,7 @@ module.exports.run = async (bot, message, args) => {
                 .setFooter(characterOfAccount.name, `${characterImage}?name=${characterOfAccount.name}`)
                 .setTimestamp(new Date());
 
-              await discordWebhook.send(transactionEmbed);
+              await discordWebhook.send({ embeds: [transactionEmbed] });
               createdDiscordPostWithCreatorsIGN = true;
             }
           }
@@ -184,8 +184,8 @@ module.exports.run = async (bot, message, args) => {
             settings.youtube.discordChannel.id,
             settings.youtube.discordChannel.secret,
           );
-          await discordWebhook.edit('Cody', 'https://i.imgur.com/slXSnt7.png');
-          const transactionEmbed = new Discord.RichEmbed()
+          await discordWebhook.edit({ name: 'Cody', avatar: 'https://i.imgur.com/slXSnt7.png' });
+          const transactionEmbed = new Discord.MessageEmbed()
             .setDescription(`**Check out ${channelTitle}'s new community video related to OSM that they posted!**`)
             .setColor('#00ff26')
             .setThumbnail('https://i.imgur.com/slXSnt7.png')
@@ -195,17 +195,17 @@ module.exports.run = async (bot, message, args) => {
             .setFooter('Cody', 'https://i.imgur.com/slXSnt7.png')
             .setTimestamp(new Date());
 
-          await discordWebhook.send(transactionEmbed);
+          await discordWebhook.send({ embeds: [transactionEmbed] });
         }
 
-        const communityVideoEmbed = new Discord.RichEmbed()
+        const communityVideoEmbed = new Discord.MessageEmbed()
           .setColor(orange)
           .setDescription('Added a new community video!')
           .addField('YouTube Video', youtubeLink)
           .addField('OSM Account ID of Creator', accountIdOfCreator)
           .setTimestamp(message.createdAt);
 
-        message.author.send(communityVideoEmbed);
+        message.author.send({ embeds: [communityVideoEmbed] });
       } catch (insertErr) {
         if (insertErr.code !== 'ER_DUP_ENTRY') {
           console.log(insertErr);
