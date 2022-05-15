@@ -6,7 +6,7 @@ module.exports.run = async (bot, message, args) => {
     return;
   }
   message.delete();
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES');
+  if (!message.member.permissions.has('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES');
   const botmessage = args.join(' ');
   message.channel.send(botmessage);
 };
