@@ -14,9 +14,9 @@ module.exports = async (channelName, bot) => {
         if (muteTime > 0 && muteTime < 2147483647) {
           setTimeout(async () => {
             await user.removeRole(mutedRole.id);
-            user.send(new Discord.RichEmbed()
+            user.send({ embeds: [new Discord.MessageEmbed()
               .setColor(discordBotConfig.orange)
-              .setDescription('You\'ve been unmuted from the OSM discord.'));
+              .setDescription('You\'ve been unmuted from the OSM discord.')]});
           }, muteTime);
         }
       });
