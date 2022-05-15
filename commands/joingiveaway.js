@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
     }
     globals.variables.giveaway.players.push(message.author);
 
-    const joinedGiveawayEmbed = new Discord.RichEmbed()
+    const joinedGiveawayEmbed = new Discord.MessageEmbed()
       .setColor(green)
       .setThumbnail('https://i.imgur.com/UXkyX2E.png')
       .setDescription('You\'ve been added to the giveaway! Good luck!')
@@ -38,7 +38,7 @@ module.exports.run = async (bot, message, args) => {
       .addField('Number of Potential Winners', `${helpers.generate.commadNumber(globals.variables.giveaway.numberOfWinners)}`)
       .setTimestamp(message.createdAt);
 
-    message.author.send(joinedGiveawayEmbed);
+    message.author.send({ embeds: [joinedGiveawayEmbed] });
   } catch (err) {
     console.log(err);
     message.author.send('Something went wrong! Contact staff.');
