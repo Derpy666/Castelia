@@ -16,9 +16,9 @@ module.exports = async (bot) => {
           if (has.discordUsername(discordAccounts, member.user.tag)) {
             member.addRole(donorRole);
             await conn.query('UPDATE discord.accounts SET receivedDonorRole = 1 WHERE discordUsername = ?', [member.user.tag]);
-            member.user.send(new Discord.RichEmbed()
+            member.user.send({ embeds: [new Discord.MessageEmbed()
               .setColor(green)
-              .setDescription('Thank you for your donation and support of OSM! You have been given a Donor tag as a thank you!'));
+              .setDescription('Thank you for your donation and support of OSM! You have been given a Donor tag as a thank you!')]});
           }
         });
       }
