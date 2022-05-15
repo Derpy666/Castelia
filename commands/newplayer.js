@@ -4,7 +4,7 @@ module.exports.run = async (bot, message) => {
   if (!message.channel.type === 'dm') {
     message.delete();
   }
-  const serverEmbed = new Discord.RichEmbed()
+  const serverEmbed = new Discord.MessageEmbed()
     .setColor('#15f153')
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
     .setDescription('Here are some tips to familiarize yourself with OSM.')
@@ -19,13 +19,13 @@ module.exports.run = async (bot, message) => {
     .addField('How to Purchase a Pet', 'In order to not be Vote/Pay-To-Win there are two Meso Pets sold for 1,000,000 Mesos from the Mesos tab in the Cash Shop. The pets in the normal Pet tab are unavailable unless you have purchased one of the two Meso Pets.')
     .addField('Announcements', 'Events, server status, and content updates will be posted on the forums and Discord server.');
   try {
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
-      message.author.send(serverEmbed);
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
+      message.author.send({ embeds: [serverEmbed] });
     } else {
-      message.channel.send(serverEmbed);
+      message.channel.send({ embeds: [serverEmbed] });
     }
   } catch (ex) {
-    message.author.send(serverEmbed);
+    message.author.send({ embeds: [serverEmbed] });
   }
 };
 
