@@ -29,11 +29,11 @@ module.exports.run = async (bot, message, args) => {
           const hours = Math.floor(totalNumberOfMinutesWithNitroBoost / 60);
           totalNumberOfMinutesWithNitroBoost -= hours * 60;
           const minutes = Math.floor(totalNumberOfMinutesWithNitroBoost);
-          message.author.send(new Discord.RichEmbed()
+          message.author.send({ embeds: [new Discord.MessageEmbed()
             .setColor(green)
             .setThumbnail('https://i.imgur.com/UXkyX2E.png')
             .setDescription(`You will receive 3,000 Maple Cash in ${days} days, ${hours} hours, and ${minutes} minutes.`)
-            .setTimestamp(new Date().getTime()));
+            .setTimestamp(new Date().getTime())]});
         } else {
           message.author.send('You haven\'t Nitro Boosted OSM yet!');
         }
