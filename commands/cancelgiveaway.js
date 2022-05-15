@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args) => {
       .setTimestamp(message.createdAt);
 
     const generalChannel = message.guild.channels.find(item => item.name === 'general');
-    generalChannel.send({ embeds: [giveawayEventEmbed]);
+    generalChannel.send({ embeds: [giveawayEventEmbed] });
     endGiveaway();
   } catch (err) {
     console.log(err);
