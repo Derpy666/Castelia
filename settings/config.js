@@ -2,10 +2,10 @@ require("dotenv").config()
 
 // MySQL database
 module.exports.mySQL = {
-  host: '66.94.123.179',
-  user: 'u91_LJYWnnJ4Hv',
-  password: 'lTri0V!4Y^unt82hzZNh=MwX',
-  database: 's91_maple',
+  host: process env.MYSQL_HOST,
+  user: process env.MYSQL_USER,
+  password: process env.MYSQL_PASS,
+  database: process env.MYSQL_NAME,
 };
 
 // Discord bot config
