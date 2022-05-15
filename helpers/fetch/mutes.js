@@ -6,7 +6,7 @@ module.exports = async (channelName, bot) => {
   try {
     await pool(async (conn) => {
       const mutedUsers = await conn.query('SELECT affected_user as affectedUser, punishment_expires as punishmentExpires FROM incidents WHERE punishment_expires > NOW()');
-      const channel = bot.guilds.find(item => item.name === channelName);
+      const channel = bot.guilds.cache.find(item => item.name === channelName);
       const mutedRole = channel.roles.find(item => item.name === 'Muted');
       mutedUsers.forEach((mutedUser) => {
         const user = channel.members.find(member => member.id === mutedUser.affectedUser);
