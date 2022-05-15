@@ -4,7 +4,7 @@ module.exports.run = async (bot, message) => {
   if (!message.channel.type === 'dm') {
     message.delete();
   }
-  const serverEmbed = new Discord.RichEmbed()
+  const serverEmbed = new Discord.MessageEmbed()
     .setDescription("OSM's Frequently Asked Questions")
     .setColor('#15f153')
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
@@ -16,7 +16,7 @@ module.exports.run = async (bot, message) => {
     .addField('How can I support OSM?', 'The best way to support the server is to tell your friends about it! The other best way to support the server is to vote for it every day. If you are generous and have spare income, we would really appreciate a donation to help operate the server and pay bills. Every little bit helps!')
     .addField('Have more FAQ questions?', 'Visit our website to see more: http://faq.oldschoolmaple.com');
 
-  message.author.send(serverEmbed);
+  message.author.send({ embeds: [serverEmbed] });
 };
 
 module.exports.help = {
