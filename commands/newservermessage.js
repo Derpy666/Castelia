@@ -25,13 +25,13 @@ module.exports.run = async (bot, message, args) => {
       return;
     }
     message.delete();
-    if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+    if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
     if (args[0] === 'help' || args.length === 0) {
       message.author.send('Usage: !newservermessage <optional info/error/warning> <"header"> <"content">');
       return;
     }
 
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
       return errors.equalPerms(message, 'MANAGE_MESSAGES');
     }
 
@@ -39,20 +39,20 @@ module.exports.run = async (bot, message, args) => {
     if (type.startsWith('"')) {
       type = 'info';
     } else if (type !== 'info' && type !== 'error' && type !== 'warning') {
-      message.author.send(new Discord.RichEmbed()
+      message.author.send({ embeds: [new Discord.MessageEmbed()
         .setColor(green)
         .setDescription('Type must be either **info**, **error**, or **warning**.')
         .addField('Inputted Text', `!newservermessage ${args.join(' ')}`)
-        .setTimestamp(message.createdAt));
+        .setTimestamp(message.createdAt)]});
       return;
     }
     const messages = extractAllText(args);
     if (messages.length !== 2) {
-      message.author.send(new Discord.RichEmbed()
+      message.author.send({ embeds: [new Discord.MessageEmbed()
         .setColor(green)
         .setDescription('You must pass in a **header** and a **content** message! Make sure to surround them with quotes (").')
         .addField('Inputted Text', `!newservermessage ${args.join(' ')}`)
-        .setTimestamp(message.createdAt));
+        .setTimestamp(message.createdAt)]});
       return;
     }
     const header = messages[0];
@@ -71,14 +71,14 @@ module.exports.run = async (bot, message, args) => {
       console.log(err);
     }
 
-    message.author.send(new Discord.RichEmbed()
+    message.author.send({ embeds: [new Discord.MessageEmbed()
       .setColor(green)
       .setDescription('New Server Message')
       .addField('Inputted Text', `!newservermessage ${args.join(' ')}`)
       .addField('Type', type)
       .addField('Header', header)
       .addField('Content', content)
-      .setTimestamp(message.createdAt));
+      .setTimestamp(message.createdAt)]});
   } catch (err) {
     console.log(err);
     message.author.send(`Something went wrong: ${err.message}`);
