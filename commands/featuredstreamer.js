@@ -4,7 +4,7 @@ module.exports.run = async (bot, message) => {
   if (!message.channel.type === 'dm') {
     message.delete();
   }
-  const serverEmbed = new Discord.RichEmbed()
+  const serverEmbed = new Discord.MessageEmbed()
     .setColor('#15f153')
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
     .setDescription('Issue with running OSM?')
@@ -18,12 +18,12 @@ module.exports.run = async (bot, message) => {
     .addField('Step 8', 'Run the .exe as an administrator.');
   try {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
-      message.author.send(serverEmbed);
+      message.author.send({ embeds: [serverEmbed] });
     } else {
-      message.channel.send(serverEmbed);
+      message.channel.send({ embeds: [serverEmbed] });
     }
   } catch (ex) {
-    message.author.send(serverEmbed);
+    message.author.send({ embeds: [serverEmbed] });
   }
 };
 
