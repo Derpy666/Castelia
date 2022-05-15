@@ -15,7 +15,7 @@ module.exports.run = async (bot, message) => {
     .addField('Is there an FAQ page I can read?', 'Sure! Use !faq or visit https://faq.oldschoolmaple.com/')
     .addField('What commands can I run in the Discord?', 'You can type !commands to see the full list!');
 
-  message.author.send({ embeds: [serverEmbed });
+  message.author.send({ embeds: [serverEmbed] });
 };
 
 module.exports.help = {
