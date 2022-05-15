@@ -4,7 +4,7 @@ const { discordBot: discordBotConfig } = require('../settings/config');
 const { green } = discordBotConfig;
 
 module.exports = (member) => {
-  member.user.send(new Discord.RichEmbed()
+  member.user.send(new Discord.MessageEmbed()
     .setColor(green)
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
     .setDescription(`Welcome to OSM <@!${member.id}>! You can type **!commands** to see what I'm capable of!`)
