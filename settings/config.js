@@ -1,15 +1,17 @@
+require("dotenv").config()
+
 // MySQL database
 module.exports.mySQL = {
-  host: 'CHANGE_THIS_TO_SOME_IP',
-  user: 'CHANGE_THIS_TO_SOME_USER',
-  password: 'CHANGE_THIS_TO_SOME_PASSWORD',
-  database: 'CHANGE_THIS_TO_SOME_DATABASE',
+  host: '66.94.123.179:3306',
+  user: 'u91_LJYWnnJ4Hv',
+  password: 'lTri0V!4Y^unt82hzZNh=MwX',
+  database: 's91_maple',
 };
 
 // Discord bot config
 module.exports.discordBot = {
   channelName: 'CHANGE_THIS_TO_SOME_CHANNEL_NAME',
-  token: 'CHANGE_THIS_TO_SOME_TOKEN',
+  token: process.env.TOKEN,
   prefix: '!',
   red: '#b70000',
   orange: '#ff6a00',
