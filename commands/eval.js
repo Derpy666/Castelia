@@ -12,7 +12,10 @@ const replaceSecrets = (str, hid = "Hidden") => {
 const resEmbed = new Discord.MessageEmbed();
 
 module.exports.run = async (bot, message, args) => {
-                if(!bot.config.devs.includes(message.author.id)) return;
+
+let devs = ["388320576407863297"]
+
+                if(!devs.includes(message.author.id)) return;
 
                 let codein = args.join(" ");
 
