@@ -13,13 +13,13 @@ module.exports.run = async (bot, message, args) => {
       return;
     }
     message.delete();
-    if (!message.member.hasPermission('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
+    if (!message.member.permissions.has('KICK_MEMBERS')) return errors.noPerms(message, 'KICK_MEMBERS');
     if (args[0] === 'help' || args.length !== 1) {
       message.author.send('Usage: !newcouponcode <reward amount>');
       return;
     }
 
-    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
       return errors.equalPerms(message, 'MANAGE_MESSAGES');
     }
 
@@ -44,14 +44,14 @@ module.exports.run = async (bot, message, args) => {
       console.log(err);
     }
 
-    const couponCodeEmbed = new Discord.RichEmbed()
+    const couponCodeEmbed = new Discord.MessageEmbed()
       .setColor(green)
       .setDescription('New Coupon Code')
       .addField('Coupon Code', code)
       .addField('Amount', `${helpers.generate.commadNumber(amount)} Maple Cash`)
       .setTimestamp(message.createdAt);
 
-    message.author.send(couponCodeEmbed);
+    message.author.send({ embeds: [couponCodeEmbed] });
   } catch (err) {
     console.log(err);
     message.author.send(`Something went wrong: ${err.message}`);
