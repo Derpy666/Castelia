@@ -13,7 +13,7 @@ module.exports.run = async (bot, message, args) => {
     return;
   }
   message.delete();
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES');
+  if (!message.member.permissions.has('MANAGE_MESSAGES')) return errors.noPerms(message, 'MANAGE_MESSAGES');
   if (args[0] === 'help' || args.length < 3) {
     message.author.send('Usage: !mute <user> <1s/m/h/d> <reason>');
     return;
@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args) => {
   if (!reason) {
     return errors.noReason(message, username, 'tempmuting');
   }
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+  if (!message.member.permissions.has('MANAGE_MESSAGES')) {
     return errors.equalPerms(message, 'MANAGE_MESSAGES');
   }
   let mutedRole = message.guild.roles.find(item => item.name === 'Muted');
@@ -55,7 +55,7 @@ module.exports.run = async (bot, message, args) => {
     return errors.general(message, `${user} is already muted!`);
   }
 
-  const muteEmbed = new Discord.RichEmbed()
+  const muteEmbed = new Discord.MessageEmbed()
     .setColor(discordBotConfig.orange)
     .setDescription('Temporary Mute')
     .addField('Muted By', message.author)
@@ -69,7 +69,7 @@ module.exports.run = async (bot, message, args) => {
   if (!incidentsChannel) {
     return errors.general(message, 'Could not find the #incidents channel. Please create it so I can log all incidents.');
   }
-  incidentsChannel.send(muteEmbed);
+  incidentsChannel.send({ embeds: [muteEmbed] });
   try {
     await pool(async (conn) => {
       const punishmentExpires = moment().add(ms(muteTime)).format(settings.momentDateFormat);
@@ -87,20 +87,20 @@ module.exports.run = async (bot, message, args) => {
     console.log(err);
   }
 
-  user.send(new Discord.RichEmbed()
+  user.send({ embeds: [new Discord.MessageEmbed()
     .setColor(discordBotConfig.orange)
     .setDescription('You\'ve been muted from the OSM discord.')
     .addField('Reason', reason)
     .addField('Length', muteTime)
     .addField('Occured in', message.channel)
-    .setTimestamp(message.createdAt));
+    .setTimestamp(message.createdAt)]});
   await user.addRole(mutedRole.id);
 
   setTimeout(async () => {
     await user.removeRole(mutedRole.id);
-    user.send(new Discord.RichEmbed()
+    user.send({ embeds: [new Discord.MessageEmbed()
       .setColor(discordBotConfig.orange)
-      .setDescription('You\'ve been unmuted from the OSM discord.'));
+      .setDescription('You\'ve been unmuted from the OSM discord.')]});
   }, ms(muteTime));
 };
 
