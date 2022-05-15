@@ -10,7 +10,7 @@ module.exports.mySQL = {
 
 // Discord bot config
 module.exports.discordBot = {
-  channelName: 'CHANGE_THIS_TO_SOME_CHANNEL_NAME',
+  channelName: 'קסטליה',
   token: process.env.TOKEN,
   prefix: '!',
   red: '#b70000',
