@@ -28,11 +28,11 @@ module.exports.run = async (bot, message, args) => {
               return;
             }
             await conn.query('UPDATE discord.nitro_boost SET accountId = ? WHERE discordMemberId = ?', [character.accountid, message.author.id]);
-            message.author.send(new Discord.RichEmbed()
+            message.author.send({ embeds: [new Discord.RichEmbed()
               .setColor(green)
               .setThumbnail('https://i.imgur.com/UXkyX2E.png')
               .setDescription(`Connected your character **${ign}** to your Nitro Boost!\n\nYou will begin receiving **3,000 Maple Cash every week!** Thank you for your support!`)
-              .setTimestamp(new Date().getTime()));
+              .setTimestamp(new Date().getTime())]});
           } else {
             message.author.send('You haven\'t Nitro Boosted OSM yet!');
           }
