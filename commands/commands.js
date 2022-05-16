@@ -1,10 +1,15 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (bot, message) => {
-  if (!message.channel.type === 'dm') {
-    message.delete();
-  }
-  const servedEmbed = new Discord.MessageEmbed()
+const Discord = require("discord.js");
+
+module.exports = {
+	data: {
+                name: 'commands',
+                description: 'show list commands',
+              },
+	async execute(bot, interaction, args) {
+
+const servedEmbed = new Discord.MessageEmbed()
     .setColor('#15f153')
     .setThumbnail('https://i.imgur.com/UXkyX2E.png')
     .setDescription("OSM's Discord Commands")
@@ -22,9 +27,9 @@ module.exports.run = async (bot, message) => {
     .addField('!joingiveaway', 'Join a running giveaway to win a coupon code!')
     .addField('!commands', 'Display this list of commands.');
 
-  message.author.send({ embeds: [servedEmbed] });
+  await interaction.reply({ embeds: [servedEmbed] });
 
-  if (message.channel.type !== 'dm' && message.member.permissions.has('MANAGE_MESSAGES')) {
+if (interaction.member.permissions.has('MANAGE_MESSAGES')) {
     const staffServerEmbed = new Discord.MessageEmbed()
       .setColor('#15f153')
       .setThumbnail('https://i.imgur.com/UXkyX2E.png')
@@ -47,10 +52,7 @@ module.exports.run = async (bot, message) => {
       .addField('!givevote <ign>', 'Gives a player a manual vote reward.')
       .addField('!featuredstreamer', 'Displays information on how to become a featured streamer.');
 
-    message.author.send({ embeds: [staffServerEmbed] });
-  }
-};
+    await interaction.followUp({ embeds: [staffServerEmbed], ephemeral: true });
 
-module.exports.help = {
-  name: 'commands',
+}
 };
