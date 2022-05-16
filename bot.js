@@ -164,7 +164,7 @@ console.log('Started refreshing application (/) commands.');
 	         rest.put(
 			Routes.applicationGuildCommands("975258238914269235", "936482657343254528"),
 			{ body: commands },
-		).then(() => console.log('Successfully reloaded ${commands.length} application (/) commands.'))
+		).then(() => console.log(`Successfully reloaded ${commands.length} application (/) commands.`))
 
 
 bot.login(discordBotConfig.token);
