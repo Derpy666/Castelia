@@ -128,7 +128,7 @@ bot.on('messageUpdate', (oldMessage, newMessage) => {
   }
 });
 
-bot.on('interactionCreate', (interaction) => {
+bot.on('interactionCreate', async (interaction) => {
   async function handleCommandAutocomplete(client, interaction, args) {
 
     const command = require(`./commands/${interaction.commandName}`);
