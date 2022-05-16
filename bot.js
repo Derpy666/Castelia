@@ -12,6 +12,9 @@ intents: Object.keys(Discord.Intents.FLAGS),
 allowedMentions: { parse: ['users', 'roles'], repliedUser: true },
 fetchAllMembers:true
 });
+
+bot.login(discordBotConfig.token);
+
 bot.commands = new Discord.Collection();
 
 const { REST } = require('@discordjs/rest');
@@ -167,4 +170,3 @@ console.log('Started refreshing application (/) commands.');
 		).then(() => console.log(`Successfully reloaded ${commands.length} application (/) commands.`))
 
 
-bot.login(discordBotConfig.token);
