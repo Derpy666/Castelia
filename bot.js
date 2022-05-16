@@ -14,8 +14,18 @@ fetchAllMembers:true
 });
 bot.commands = new Discord.Collection();
 
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9'); 
+
+
 const cooldown = new Set();
 const cdSeconds = 5;
+
+const rest = new REST({ version: '9' }).setToken(discordBotConfig.token);
+
+
+let commands = []
+
 
 fs.readdir('./commands/', (err, files) => {
   if (err) console.log(err);
@@ -29,7 +39,8 @@ fs.readdir('./commands/', (err, files) => {
   jsfile.forEach((f) => {
     const props = require(`./commands/${f}`);
     console.log(`Loaded ${f}!`);
-    bot.commands.set(props.help.name, props);
+    if(props.data) commands.push(props.data);
+    else bot.commands.set(props.help.name, props);
   });
 });
 
@@ -116,5 +127,44 @@ bot.on('messageUpdate', (oldMessage, newMessage) => {
     newMessage.author.send('Posting links in OSM\'s **#general** channel is not allowed.');
   }
 });
+
+bot.on('interactionCreate', (interaction) => {
+  async function handleCommandAutocomplete(client, interaction, args) {
+
+    const command = require(`./commands/${interaction.commandName}`);
+
+    const focused = interaction.options.data.find((option) => option.focused);
+    if (!focused) return await interaction.respond([]);
+
+    let autocomplete = await command.autocomplete(interaction, focused);
+    if (autocomplete.every((option) => typeof option === 'string'))
+        autocomplete = autocomplete.map((a) => ({
+            name: a,
+            value: a,
+        }));
+    if (autocomplete.length > 25) autocomplete = autocomplete.slice(0, 25);
+
+    return await interaction.respond(autocomplete);
+};
+
+if (interaction.isAutocomplete())
+        return await handleCommandAutocomplete(bot, interaction, interaction?.options?._hoistedOptions || []);
+
+
+if (interaction.isButton()) {
+}
+if(interaction.isCommand()) {
+let cmd = require(`./commands/${interaction.commandName}`)
+return await cmd.execute(bot, interaction, interaction?.options?._hoistedOptions || [])
+}
+});
+
+console.log('Started refreshing application (/) commands.');
+
+	         rest.put(
+			Routes.applicationGuildCommands("975258238914269235", "936482657343254528"),
+			{ body: commands },
+		).then(() => console.log('Successfully reloaded application (/) commands.'))
+
 
 bot.login(discordBotConfig.token);
