@@ -51,6 +51,6 @@ if (interaction.member.permissions.has('MANAGE_MESSAGES')) {
       .addField('!featuredstreamer', 'Displays information on how to become a featured streamer.');
 
     await interaction.followUp({ embeds: [staffServerEmbed], ephemeral: true });
-
+}
 }
 };
